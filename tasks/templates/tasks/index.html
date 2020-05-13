@@ -1,0 +1,18 @@
+<h3>List of all taks created till date</h3>
+{% if all_tasks_list %}
+    <table>
+        <tbody>
+        {% for task in all_tasks_list %}
+            <tr>
+                <td>{{task.details}}</td>
+                <td> | Create Time: {{task.create_time}}</td>
+                <td> | Due Date: {{task.due_date}}</td>
+                <td> | Status: {{task.status}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% else %}
+    <p>No tasks have been created till date.</p>
+{% endif %}
