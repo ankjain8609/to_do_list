@@ -4,15 +4,19 @@
         <tbody>
         {% for task in all_tasks_list %}
             <tr>
-                <td>{{task.details}}</td>
-                <td> | Create Time: {{task.create_time}}</td>
-                <td> | Due Date: {{task.due_date}}</td>
-                <td> | Status: {{task.status}}</td>
+                <td>{{task.task_details}}</td>
+                <td> | Create Time: {{task.task_create_time}}</td>
+                <td> | Due Date: {{task.task_due_date}}</td>
+                <td> | Status: {{task.task_status}}</td>
+                <td> | Category: {{task.task_category}}</td>
+                <td> | Label: {{task.task_label}}</td>
             </tr>
         {% endfor %}
         </tbody>
-    </table>
-
+        </table>
 {% else %}
     <p>No tasks have been created till date.</p>
 {% endif %}
+
+<h4><a href="/tasks/new/">Add Task</a></h4>
+
