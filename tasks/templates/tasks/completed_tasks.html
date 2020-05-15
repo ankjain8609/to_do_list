@@ -1,26 +1,23 @@
-<h3>List of All Open or In Progress Tasks</h3>
-{% if tasks_not_done %}
+<h3>List of All Completed Tasks</h3>
+{% if tasks_done %}
     <table>
         <tbody>
-        {% for task in tasks_not_done %}
+        {% for task in tasks_done %}
             <tr>
                 <td>{{task.task_details}}</td>
                 <td> | Create Time: {{task.task_create_time}}</td>
                 <td> | Due Date: {{task.task_due_date}}</td>
+                <td> | Complete Date: {{task.task_completed_date}}</td>
                 <td> | Status: {{task.task_status}}</td>
                 <td> | Category: {{task.task_category}}</td>
                 <td> | Label: {{task.task_label}}</td>
-                <td> | <a href="/tasks/{{task.id}}/edit/">Edit Task</a></td>
-                <td> | <a href="/tasks/{{task.id}}/complete/">Complete Task</a></td>
             </tr>
         {% endfor %}
         </tbody>
         </table>
 {% else %}
-    <p>There are no open tasks right now.</p>
+    <p>There are no completed tasks right now.</p>
 {% endif %}
 
-<h4><a href="/tasks/new/">Add Task</a></h4>
-<h4><a href="/tasks/completed/">All Completed Task</a></h4>
-
+<h4><a href="/tasks/">Home Page</a></h4>
 
