@@ -187,7 +187,8 @@ def label_delete(request, label_id):
     context['form'] = form            
 
     return render(request, 'tasks/index.html', context)
-   
+
+#Controlled, Passing the latest context of tasks and label lists on the home page.  
 def home_page_context():
 
     tasks_not_done = Tasks.objects.exclude(task_status = 'Done')
