@@ -4,13 +4,13 @@
         <tbody>
         {% for task in tasks_done %}
             <tr>
-                <td>{{task.task_details}}</td>
-                <td> | Create Time: {{task.task_create_time}}</td>
-                <td> | Due Date: {{task.task_due_date}}</td>
-                <td> | Complete Date: {{task.task_completed_date}}</td>
-                <td> | Status: {{task.task_status}}</td>
-                <td> | Category: {{task.task_category}}</td>
+                <td> Category: {{task.task_category}}</td>
+                <td> | {{task.task_details}}</td>
+                <td> | Completion: {{task.task_completed_time}}</td>
+                <td> | Due: {{task.task_due_date}}</td>
                 <td> | Label: {{task.task_label}}</td>
+                <td> | <a href="/tasks/{{task.id}}/delete_completed/">Delete</a></td>
+                <td> | <a href="/tasks/{{task.id}}/open_completed/">Open Task</a></td></td>
             </tr>
         {% endfor %}
         </tbody>
