@@ -1,9 +1,3 @@
-<h3>Add Label</h3>
-<form method="POST" class="label-form">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="save btn btn-default">Save</button>
-</form>
-
 <h3>List of All Open or In Progress Tasks</h3>
 <h3> List of Open Tasks</h3>
 {% if tasks_not_done %}
@@ -52,8 +46,27 @@
 {% else %}
     <p>There are no tasks in progress right now.</p>
 {% endif %}
-
-<h4><a href="/tasks/new/">Add Task</a></h4>
+<h4><a href="/tasks/task_add/">Add Task</a></h4>
 <h4><a href="/tasks/completed/">Completed Tasks</a></h4>
 
+<h3>Add Label</h3>
+<form method="POST" class="label-form">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="save btn btn-default">Save</button>
+</form>
+<h3> Labels </h3> 
+{% if label_list %}
+    <table>
+        <tbody>
+        {% for label in label_list %}
+            <tr>
+                <td> {{label.label_name}}</td>
+                <td> | <a href="/tasks/{{label.id}}/label_delete/">Delete</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>There are no labels to show right now.</p>
+{% endif %}
 

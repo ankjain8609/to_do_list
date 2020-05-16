@@ -19,6 +19,8 @@ class Tasks(models.Model):
 
 class Labels(models.Model):
     label_name = models.CharField('Label', max_length = 100)
+    label_status_master = (('Active','Active'), ('Deleted', 'Deleted'))
+    label_status = models.CharField(choices= label_status_master, default = 'Active', max_length=100)
     label_create_time = models.DateTimeField('Label Creation Time')
     label_delete_time = models.DateTimeField('Label Completion Time', null=True)
 
