@@ -5,6 +5,7 @@ from .forms import TaskCreationForm, TaskUpdationForm, LabelCreationForm
 from django.utils import timezone
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.views import generic
 
 #View, Home Page
 def index(request):
@@ -39,9 +40,9 @@ def task_add(request):
     if request.method == "POST":
     #Task Creation Form       
         form = TaskCreationForm(request.POST)
-        
         if form.is_valid():
             task = form.save(commit=False)
+            task.task_label = task.task_label.split("<QuerySet [",1)[1].split("]>")[0].replace("<Labels: ", "").replace(">","")
             task.task_status = 'Open'
             task.task_create_time = timezone.now()
             task.task_last_updated_time = timezone.now()
@@ -55,7 +56,7 @@ def task_add(request):
     else:
         form = TaskCreationForm()
     
-    return render(request, 'tasks/edit_task.html', {'form': form})
+    return render(request, 'tasks/task_edit.html', {'form': form})
 
 #View, Edit Task
 def task_edit(request, task_id):
@@ -197,8 +198,10 @@ def home_page_context():
     tasks_in_progress = Tasks.objects.filter(task_status = 'In Progress')
     
     label_list = Labels.objects.filter(label_status = 'Active')
+    date_today = timezone.now().date()
 
-    context = { 'tasks_not_done': tasks_not_done, 'tasks_in_progress': tasks_in_progress, 'label_list':label_list}
+    context = { 'tasks_not_done': tasks_not_done, 'tasks_in_progress': tasks_in_progress, 'label_list':label_list, 'date_today' : date_today}
     
     return context
+
 

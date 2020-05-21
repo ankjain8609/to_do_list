@@ -1,72 +1,73 @@
-<h3>List of All Open or In Progress Tasks</h3>
-<h3> List of Open Tasks</h3>
-{% if tasks_not_done %}
-    <table>
-        <tbody>
-        {% for task in tasks_not_done %}
-            <tr>
-                <td> Category: {{task.task_category}}</td>
-                <td> | {{task.task_details}}</td>
-                <td> | Due: {{task.task_due_date}}</td>
-                <td> | Status: {{task.task_status}}</td>
-                <td> | Label: {{task.task_label}}</td>
-                <td> | <a href="/tasks/{{task.id}}/edit/">Edit</a></td>
-                <td> | <a href="/tasks/{{task.id}}/inprogress/">In Progress</a></td>
-                <td> | <a href="/tasks/{{task.id}}/complete/">Complete</a></td>
-                <td> | <a href="/tasks/{{task.id}}/delete_home/">Delete</a></td>
- 
-            </tr>
-        {% endfor %}
-        </tbody>
+{% if user.is_authenticated %}
+    <a href="/tasks/logout/">Logout</a>
+    <h3> List of Open Tasks</h3>
+    {% if tasks_not_done %}
+        <table>
+            <tbody>
+            {% for task in tasks_not_done %}
+                <tr></tr>
+                    <td> {{task.task_details}}</td>
+                    <td> | Label: {{task.task_label}}</td>
+                    <td> | Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                    <td> | <a href="/tasks/{{task.id}}/edit/">Edit</a></td>
+                    <td> | <a href="/tasks/{{task.id}}/inprogress/">In Progress</a></td>
+                    <td> | <a href="/tasks/{{task.id}}/complete/">Complete</a></td>
+                    <td> | <a href="/tasks/{{task.id}}/delete_home/">Delete</a></td>
+    
+                </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+    {% else %}
+        <p>There are no open tasks right now.</p>
+    {% endif %}
+
+    <h3> List of In Progress Tasks</h3>
+
+    {% if tasks_in_progress %}
+        <table>
+            <tbody>
+            {% for task in tasks_in_progress %}
+                <tr>
+                    <td> {{task.task_details}}</td>
+                    <td> | Label: {{task.task_label}}</td>
+                    <td> | Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                    <td> | <a href="/tasks/{{task.id}}/edit/">Edit</a></td>
+                    <td> | <a href="/tasks/{{task.id}}/complete/">Complete</a></td>
+                    <td> | <a href="/tasks/{{task.id}}/delete_home/">Delete</a></td>
+    
+                </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+    {% else %}
+        <p>There are no tasks in progress right now.</p>
+    {% endif %}
+
+    <br>
+    <a href="/tasks/task_add/">Add Task</a> <br>
+    <a href="/tasks/completed/">Completed Tasks</a> <br>
+
+    <form method="POST" class="label-form">{% csrf_token %}
+        {{ form.as_p }} 
+        <button type="submit" class="save btn btn-default">Add</button>
+    </form>
+    <h3> Labels </h3> 
+    {% if label_list %}
+        <table>
+            <tbody>
+            {% for label in label_list %}
+                <tr>
+                    <td> {{label.label_name}}</td>
+                    <td> | <a href="/tasks/{{label.id}}/label_delete/">Delete</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
         </table>
+    {% else %}
+        <p>There are no labels to show right now.</p>
+    {% endif %}
 {% else %}
-    <p>There are no open tasks right now.</p>
-{% endif %}
-
-<h3> List of In Progress Tasks</h3>
-
-{% if tasks_in_progress %}
-    <table>
-        <tbody>
-        {% for task in tasks_in_progress %}
-            <tr>
-                <td> Category: {{task.task_category}}</td>
-                <td> | {{task.task_details}}</td>
-                <td> | Due: {{task.task_due_date}}</td>
-                <td> | Status: {{task.task_status}}</td>
-                <td> | Label: {{task.task_label}}</td>
-                <td> | <a href="/tasks/{{task.id}}/edit/">Edit</a></td>
-                <td> | <a href="/tasks/{{task.id}}/complete/">Complete</a></td>
-                <td> | <a href="/tasks/{{task.id}}/delete_home/">Delete</a></td>
- 
-            </tr>
-        {% endfor %}
-        </tbody>
-        </table>
-{% else %}
-    <p>There are no tasks in progress right now.</p>
-{% endif %}
-<h4><a href="/tasks/task_add/">Add Task</a></h4>
-<h4><a href="/tasks/completed/">Completed Tasks</a></h4>
-
-<h3>Add Label</h3>
-<form method="POST" class="label-form">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="save btn btn-default">Save</button>
-</form>
-<h3> Labels </h3> 
-{% if label_list %}
-    <table>
-        <tbody>
-        {% for label in label_list %}
-            <tr>
-                <td> {{label.label_name}}</td>
-                <td> | <a href="/tasks/{{label.id}}/label_delete/">Delete</a></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>There are no labels to show right now.</p>
+    <p><a href="/tasks/login/">Login here</a></p>
 {% endif %}
 
