@@ -1,6 +1,7 @@
 {% if user.is_authenticated %}
+    Welcome {{user.username}}<br>
     <a href="/tasks/logout/">Logout</a>
-    <h3> List of Open Tasks</h3>
+    <h4> Open Tasks</h4>
     {% if tasks_not_done %}
         <table>
             <tbody>
@@ -22,7 +23,7 @@
         <p>There are no open tasks right now.</p>
     {% endif %}
 
-    <h3> List of In Progress Tasks</h3>
+    <h4> In Progress Tasks</h4>
 
     {% if tasks_in_progress %}
         <table>
@@ -47,12 +48,11 @@
     <br>
     <a href="/tasks/task_add/">Add Task</a> <br>
     <a href="/tasks/completed/">Completed Tasks</a> <br>
-
     <form method="POST" class="label-form">{% csrf_token %}
         {{ form.as_p }} 
         <button type="submit" class="save btn btn-default">Add</button>
     </form>
-    <h3> Labels </h3> 
+    <h4> Labels </h4> 
     {% if label_list %}
         <table>
             <tbody>

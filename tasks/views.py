@@ -6,10 +6,11 @@ from django.utils import timezone
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views import generic
+from django.contrib.auth.models import User
 
 #View, Home Page
 def index(request):
-    
+
     if request.method == "POST":
     #Label Creation Form    
         form = LabelCreationForm(request.POST)
@@ -53,6 +54,7 @@ def task_add(request):
             context = home_page_context()
             context['form'] = form
             return render(request, 'tasks/index.html', context)
+
     else:
         form = TaskCreationForm()
     
@@ -119,7 +121,7 @@ def task_inprogress(request, task_id):
 
     return render(request, 'tasks/index.html', context)
     
-#Controller, Mark Task Status as Complete 
+#Controller, Mark Task Status as deleted 
 def task_delete(request, task_id):
 
     task = Tasks.objects.get(id = task_id)
@@ -147,7 +149,7 @@ def task_delete_completed_page(request, task_id):
     task = task_delete(request, task_id)
     
     #Context to be passsed to the completed page. 
-    tasks_done = Tasks.objects.filter(task_status='Done')
+    tasks_done = Tasks.objects.filter(task_status='Done').order_by('-task_completed_time')
     context = {'tasks_done': tasks_done}
 
     return render(request, 'tasks/completed_tasks.html', context)
@@ -155,7 +157,7 @@ def task_delete_completed_page(request, task_id):
 #View, List of all completed tasks. 
 def tasks_completed_list(request):
 
-    tasks_done = Tasks.objects.filter(task_status='Done')
+    tasks_done = Tasks.objects.filter(task_status='Done').order_by('-task_completed_time')
     context = {'tasks_done': tasks_done}
 
     return render(request, 'tasks/tasks_completed.html', context)

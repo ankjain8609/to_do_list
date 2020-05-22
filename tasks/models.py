@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 class Tasks(models.Model):
     
+    user = models.ForeignKey(User, on_delete = models.CASCADE, default = 1)
     task_details = models.CharField('Details', max_length=500)
     task_create_time = models.DateTimeField('Task Creation Time')
     task_due_date = models.DateField('Task Due Date', null=True)
@@ -20,6 +21,7 @@ class Tasks(models.Model):
 
 class Labels(models.Model):
 
+    user = models.ForeignKey(User, on_delete = models.CASCADE, default = 1)
     label_name = models.CharField('Label', max_length = 100)
     label_status_master = (('Active','Active'), ('Deleted', 'Deleted'))
     label_status = models.CharField(choices= label_status_master, default = 'Active', max_length=100)
