@@ -1,9 +1,0 @@
-{% if user_list %}
-    <ul>
-    {% for user in user_list %}
-        <li>{{user.users.username}} | Bio: {{ user.bio }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No users are available.</p>
-{% endif %}

@@ -14,7 +14,8 @@
                     <td> | <a href="/tasks/{{task.id}}/inprogress/">In Progress</a></td>
                     <td> | <a href="/tasks/{{task.id}}/complete/">Complete</a></td>
                     <td> | <a href="/tasks/{{task.id}}/delete_home/">Delete</a></td>
-    
+                    <td> | <a href="/tasks/{{task.id}}/log_hours/">Log Hours</a></td>
+                    <td> | <a href="/tasks/{{task.id}}/log_summary/">Log Summary</a></td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -44,26 +45,19 @@
     {% else %}
         <p>There are no tasks in progress right now.</p>
     {% endif %}
-
-    <br>
+    <br>        
     <a href="/tasks/task_add/">Add Task</a> <br>
     <a href="/tasks/completed/">Completed Tasks</a> <br>
+
     <form method="POST" class="label-form">{% csrf_token %}
         {{ form.as_p }} 
         <button type="submit" class="save btn btn-default">Add</button>
     </form>
     <h4> Labels </h4> 
     {% if label_list %}
-        <table>
-            <tbody>
-            {% for label in label_list %}
-                <tr>
-                    <td> {{label.label_name}}</td>
-                    <td> | <a href="/tasks/{{label.id}}/label_delete/">Delete</a></td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        {% for label in label_list %}
+            {{label.label_name}} - <a href="/tasks/{{label.id}}/label_delete/">Delete</a> | 
+        {% endfor %}
     {% else %}
         <p>There are no labels to show right now.</p>
     {% endif %}

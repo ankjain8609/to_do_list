@@ -1,0 +1,34 @@
+<h3> Task Details </h3>
+
+Task Details: {{task.task_details}} <br>
+Create Date: {{task.task_create_time}} <br>
+Due Date: {{task.task_due_date}} <br>
+
+<h3> Task Log Hours </h3>
+
+{% if task_log_hours %}
+    <table>
+        <tbody>
+        {% for log in task_log_hours %}
+            <tr>
+                <td> Date of Work: {{log.task_day_of_work}} </td>
+                <td> | {{log.task_time_spent}} hours </td>
+                <td> | Logged On {{log.task_log_time}} </td>
+                <td> | {{log.log_notes }} </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>There are no logs maintaied for this task.</p>
+{% endif %}
+<br>
+
+<a href="/tasks/{{task.id}}/log_hours/">Log Hours for this Task.</a><br>
+<a href="/tasks/">Home</a>
+
+
+    
+
+
+

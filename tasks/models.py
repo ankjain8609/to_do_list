@@ -16,6 +16,8 @@ class Tasks(models.Model):
     task_category = models.CharField('Task Category', max_length=200, null = True)
     task_label = models.CharField('Task Label', max_length=200, null = True)
 
+    task_hours = models.IntegerField('Task Hours', default = 0, null = True)
+
     def __str__(self):
         return self.task_details
 
@@ -30,3 +32,17 @@ class Labels(models.Model):
 
     def __str__(self):
         return self.label_name
+
+class TaskLogHours(models.Model):
+
+    task = models.ForeignKey(Tasks, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.CASCADE, default = 1)
+    task_time_spent = models.IntegerField('Task Time Spent', null = False)
+    task_day_of_work = models.DateField('Task Day of Work', null= False)
+    task_log_notes = models.CharField('Task Notes', max_length = 500, null = True)
+    task_log_time = models.DateTimeField('Task Log Time', null = False)
+
+    def __str__(self):
+        return self.task.task_details
+
+    

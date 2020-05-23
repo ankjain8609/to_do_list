@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions', #Core Sessions Application
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms' #Crispy Forms to beautify application forms 
+    'crispy_forms', #Crispy Forms to beautify application forms 
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 ROOT_URLCONF = 'to_do_list.urls'
 
@@ -123,10 +129,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
-LOGIN_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = "/tasks/"
 
-LOGOUT_REDIRECT_URL = "/tasks/"
+LOGOUT_REDIRECT_URL = "/tasks/login/"
