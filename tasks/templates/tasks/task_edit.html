@@ -1,6 +1,9 @@
-<h2>Add or Edit Task</h2>
-{% load crispy_forms_tags %}
-<form method="POST" class="task-form">{% csrf_token %}
-    {{form|crispy}}
-    <button type="submit" class="save btn btn-default">Save</button>
-</form>
+{% extends 'tasks/base.html' %}
+{% block content %}
+    <h2>Add or Edit Task</h2>
+    {% load crispy_forms_tags %}
+    <form method="POST" class="task-form">{% csrf_token %}
+        {{form|crispy}}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{% endblock %}

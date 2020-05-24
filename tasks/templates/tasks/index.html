@@ -1,6 +1,8 @@
-{% if user.is_authenticated %}
-    Welcome {{user.username}}<br>
-    <a href="/tasks/logout/">Logout</a>
+{% extends 'tasks/base.html' %}
+{% block content %}
+    <br>
+    <br>
+    <a href="/tasks/task_add/">Add Task</a> <br>
     <h4> Open Tasks</h4>
     {% if tasks_not_done %}
         <table>
@@ -9,13 +11,21 @@
                 <tr></tr>
                     <td> {{task.task_details}}</td>
                     <td> | Label: {{task.task_label}}</td>
-                    <td> | Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                    {% if task.task_due_date %}
+                        {% if task.task_is_past_due %}
+                            <td style="color:red">| Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                        {% else %}
+                            <td> | Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                        {% endif %}
+                    {% else %}
+                        <td> | Due: </td> 
+                    {% endif %}
+                    <td> | <a href="/tasks/{{task.id}}/log_summary/">Summary</a></td>
                     <td> | <a href="/tasks/{{task.id}}/edit/">Edit</a></td>
                     <td> | <a href="/tasks/{{task.id}}/inprogress/">In Progress</a></td>
                     <td> | <a href="/tasks/{{task.id}}/complete/">Complete</a></td>
                     <td> | <a href="/tasks/{{task.id}}/delete_home/">Delete</a></td>
                     <td> | <a href="/tasks/{{task.id}}/log_hours/">Log Hours</a></td>
-                    <td> | <a href="/tasks/{{task.id}}/log_summary/">Log Summary</a></td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -33,7 +43,15 @@
                 <tr>
                     <td> {{task.task_details}}</td>
                     <td> | Label: {{task.task_label}}</td>
-                    <td> | Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                    {% if task.task_due_date %}
+                        {% if task.task_is_past_due %}
+                            <td style="color:red">| Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                        {% else %}
+                            <td> | Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                        {% endif %}
+                    {% else %}
+                        <td> | Due: </td> 
+                    {% endif %}
                     <td> | <a href="/tasks/{{task.id}}/edit/">Edit</a></td>
                     <td> | <a href="/tasks/{{task.id}}/complete/">Complete</a></td>
                     <td> | <a href="/tasks/{{task.id}}/delete_home/">Delete</a></td>
@@ -61,7 +79,4 @@
     {% else %}
         <p>There are no labels to show right now.</p>
     {% endif %}
-{% else %}
-    <p><a href="/tasks/login/">Login here</a></p>
-{% endif %}
-
+{% endblock %}
