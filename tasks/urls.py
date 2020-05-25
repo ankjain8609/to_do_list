@@ -14,5 +14,6 @@ urlpatterns = [
     path('<int:task_id>/open_completed/', views.task_open_completed_page, name = 'task_open_completed_page'),
     path('<int:task_id>/log_hours/', views.task_log_hours, name = 'task_log_hours'),
     path('<int:task_id>/log_summary/', views.task_log_summary, name = 'task_log_summary'),
-    path('<int:label_id>/label_delete/', views.label_delete, name = 'label_delete')
+    path('<int:label_id>/label_delete_home_page/', views.label_delete_home_page, name = 'label_delete_home_page'),
+    path('<int:label_id>/label_delete_task_add_page/', views.label_delete_task_add_page, name = 'label_delete_task_add_page'),
 ]

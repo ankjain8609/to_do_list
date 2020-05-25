@@ -1,9 +1,23 @@
 {% extends 'tasks/base.html' %}
 {% block content %}
+    <p><a href = "/tasks/">Home Page</a></p>
     <h2>Add or Edit Task</h2>
     {% load crispy_forms_tags %}
     <form method="POST" class="task-form">{% csrf_token %}
-        {{form|crispy}}
-        <button type="submit" class="save btn btn-default">Save</button>
+        {{task_form|crispy}}
+        <button type="submit" name = "task-submission", class="save btn btn-default">Save</button>
     </form>
+    <h4> Add Labels</h4>
+    <form method="POST" class="label-form">{% csrf_token %}
+        {{ label_form.as_p }} 
+        <button type="submit" name = "label-submission" class="save btn btn-default">Add</button>
+    </form>
+    <h4> Labels Added </h4> 
+    {% if label_list %}
+        {% for label in label_list %}
+            {{label.name}} - <a href="/tasks/{{label.id}}/label_delete_task_add_page/">Delete</a> | 
+        {% endfor %}
+    {% else %}
+        <p>There are no labels to show right now.</p>
+    {% endif %}
 {% endblock %}

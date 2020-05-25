@@ -31,11 +31,11 @@ def index(request):
     login_user = request.user
     if login_user.is_authenticated:  #explicit compare everywhere -> not to be done by conventions
         if request.method == 'POST': #create constants file, use that
-            form = LabelCreationForm(request.POST)
-            if form.is_valid(): #explicit compare            
-                label = form.save(commit=False) #check whether space around =
+            label_form = LabelCreationForm(request.POST)
+            if label_form.is_valid(): #explicit compare            
+                label = label_form.save(commit=False) #check whether space around =
                 label.user = request.user
-                label.label_create_time = timezone.now()
+                label.create_time = timezone.now()
                 label.save()
                     
                 form = LabelCreationForm()
@@ -57,21 +57,33 @@ def task_add(request):
 
     login_user = request.user
     if login_user.is_authenticated:
-        if request.method == 'POST':    
-            form = TaskCreationForm(request.POST)
-            if form.is_valid():
-                task = form.save(commit=False)
+        if request.method == 'POST' and 'task-submission' in request.POST:    
+            task_form = TaskCreationForm(request.POST)
+            if task_form.is_valid():
+                task = task_form.save(commit=False)
                 task.user = request.user
-                task.task_label = task.task_label.split("<QuerySet [",1)[1].split("]>")[0]
-                task.task_label = task.task_label.replace("<Labels: ", "").replace(">","")
-                task.task_status = 'Open'
-                task.task_create_time = timezone.now()
-                task.task_last_updated_time = timezone.now()
+                task.label = task.label.split("<QuerySet [",1)[1].split("]>")[0]
+                task.label = task.label.replace("<Labels: ", "").replace(">","")
+                task.status = 'Open'
+                task.create_time = timezone.now()
+                task.last_updated_time = timezone.now()
                 task.save()
                 return redirect('/tasks/')
+        elif request.method == 'POST' and 'label-submission' in request.POST:
+            label_form = LabelCreationForm(request.POST)
+            if label_form.is_valid(): #explicit compare            
+                label = label_form.save(commit=False) #check whether space around =
+                label.user = login_user
+                label.create_time = timezone.now()
+                label.save()
+                return redirect('/tasks/task_add')    
         else:
-            form = TaskCreationForm()        
-        return render(request, 'tasks/task_edit.html', {'form': form})
+            task_form = TaskCreationForm()
+            label_form = LabelCreationForm()
+            label_list = Labels.objects.filter(status = 'Active')
+            label_list = label_list.filter(user = login_user)         
+        return render(request, 'tasks/task_edit.html', 
+                      {'task_form': task_form, 'label_form': label_form, 'label_list':label_list})
     else:
         return redirect('/tasks/login')
 
@@ -85,18 +97,22 @@ def task_edit(request,
     if login_user.is_authenticated:
         task = Tasks.objects.get(id = task_id)        
         if request.method == 'POST': 
-            form = TaskUpdationForm(request.POST, instance = task)
+            task_form = TaskUpdationForm(request.POST, instance = task)
             if form.is_valid():
                 task = form.save(commit=False)
-                task.task_label = task.task_label.split("<QuerySet [",1)[1].split("]>")[0]
-                task.task_label = task.task_label.replace("<Labels: ", "").replace(">","")
+                task.label = task.label.split("<QuerySet [",1)[1].split("]>")[0]
+                task.label = task.label.replace("<Labels: ", "").replace(">","")
                 task.user = login_user
-                task.task_last_updated_time = timezone.now()
+                task.last_updated_time = timezone.now()
                 task.save()                
                 return redirect('/tasks/')        
         else: 
-            form = TaskUpdationForm(instance = task)        
-        return render(request, 'tasks/task_edit.html', {'form': form})    
+            task_form = TaskUpdationForm(instance = task)
+            label_form = LabelCreationForm()
+            label_list = Labels.objects.filter(status = 'Active')
+            label_list = label_list.filter(user = login_user)        
+        return render(request, 'tasks/task_edit.html', 
+                      {'task_form':task_form, 'label_form':label_form, 'label_list':label_list})    
     else:
         return redirect('/tasks/login')
 
@@ -108,9 +124,9 @@ def task_complete(request,
     """
 
     task = Tasks.objects.get(id = task_id)
-    task.task_status = 'Done'
-    task.task_last_updated_time = timezone.now()
-    task.task_completed_time = timezone.now()
+    task.status = 'Done'
+    task.last_updated_time = timezone.now()
+    task.completed_time = timezone.now()
     task.save()
     return task
 
@@ -132,8 +148,8 @@ def task_inprogress(request,
     login_user = request.user
     if login_user.is_authenticated:
         task = Tasks.objects.get(id = task_id)
-        task.task_status = 'In Progress'
-        task.task_last_updated_time = timezone.now()
+        task.status = 'In Progress'
+        task.last_updated_time = timezone.now()
         task.save()
         return redirect('/tasks/')    
     else:
@@ -146,8 +162,8 @@ def task_delete(request,
     """
 
     task = Tasks.objects.get(id = task_id)
-    task.task_status = 'Deleted'
-    task.task_last_updated_time = timezone.now()
+    task.status = 'Deleted'
+    task.last_updated_time = timezone.now()
     task.save()
     return task    
 
@@ -179,8 +195,8 @@ def tasks_completed_list(request):
 
     login_user = request.user
     if login_user.is_authenticated:
-        tasks_done = Tasks.objects.filter(task_status='Done')
-        tasks_done = tasks_done.order_by('-task_completed_time')        
+        tasks_done = Tasks.objects.filter(status='Done')
+        tasks_done = tasks_done.order_by('-completed_time')        
         login_user = request.user
         tasks_done = tasks_done.filter(user = login_user)
         context = {'tasks_done': tasks_done}
@@ -195,9 +211,9 @@ def task_open_completed_page(request,
     login_user = request.user
     if login_user.is_authenticated:
         task = Tasks.objects.get(id = task_id)
-        task.task_status = 'Open'
-        task.task_last_updated_time = timezone.now()
-        task.task_completed_time = None
+        task.status = 'Open'
+        task.last_updated_time = timezone.now()
+        task.completed_time = None
         task.save()
         return redirect('/tasks/')
     else:
@@ -205,15 +221,34 @@ def task_open_completed_page(request,
 
 def label_delete(request, 
                  label_id):
+    """Method to delete the label from the Model.
+    This is called by other methods."""
+
+    label = Labels.objects.get(id = label_id)
+    label.status = 'Deleted'
+    label.delete_time = timezone.now()
+    label.save()
+    return label
+
+def label_delete_home_page(request, 
+                           label_id):
     """Method to delete a label from the Home Page."""
 
     login_user = request.user
     if login_user.is_authenticated:
-        label = Labels.objects.get(id = label_id)
-        label.label_status = 'Deleted'
-        label.label_delete_time = timezone.now()
-        label.save()
+        label = label_delete(request,label_id)
         return redirect('/tasks/')    
+    else:
+        return redirect('/tasks/login')
+
+def label_delete_task_add_page(request, 
+                             label_id):
+    """Method to delete a label from the Task Add Page."""
+
+    login_user = request.user
+    if login_user.is_authenticated:
+        label = label_delete(request,label_id)
+        return redirect('/tasks/task_add/')    
     else:
         return redirect('/tasks/login')
 
@@ -222,15 +257,15 @@ def home_page_context(request):
 
     login_user = request.user
 
-    tasks_not_done = Tasks.objects.exclude(task_status = 'Done')
-    tasks_not_done = tasks_not_done.exclude(task_status = 'Deleted')
-    tasks_not_done = tasks_not_done.exclude(task_status = 'In Progress')
+    tasks_not_done = Tasks.objects.exclude(status = 'Done')
+    tasks_not_done = tasks_not_done.exclude(status = 'Deleted')
+    tasks_not_done = tasks_not_done.exclude(status = 'In Progress')
     tasks_not_done = tasks_not_done.filter(user = login_user)
     
-    tasks_in_progress = Tasks.objects.filter(task_status = 'In Progress')
+    tasks_in_progress = Tasks.objects.filter(status = 'In Progress')
     tasks_in_progress = tasks_in_progress.filter(user = login_user)
     
-    label_list = Labels.objects.filter(label_status = 'Active')
+    label_list = Labels.objects.filter(status = 'Active')
     label_list = label_list.filter(user = login_user)
 
     date_today = timezone.now().date()
@@ -252,7 +287,7 @@ def task_log_hours(request,
                 task_log_hours = form.save(commit=False)
                 task_log_hours.user = request.user
                 task_log_hours.task = task
-                task_log_hours.task_log_time = timezone.now()
+                task_log_hours.log_time = timezone.now()
                 task_log_hours.save()
                 return redirect('/tasks/')
         else:

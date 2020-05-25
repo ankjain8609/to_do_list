@@ -6,18 +6,18 @@
             <tbody>
             {% for task in tasks_done %}
                 <tr>
-                    <td> {{task.task_details}}</td>
-                    <td> | Completion: {{task.task_completed_time.day}}/{{task.task_completed_time.month}}</td>
-                    {% if task.task_due_date %}
+                    <td> {{task.details}}</td>
+                    <td> | Completion: {{task.completed_time.day}}/{{task.completed_time.month}}</td>
+                    {% if task.due_date %}
                             {% if task.task_is_completed_past_due %}
-                                <td style="color:red">| Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                                <td style="color:red">| Due: {{task.due_date.day}}/{{task.due_date.month}} </td>
                             {% else %}
-                                <td> | Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                                <td> | Due: {{task.due_date.day}}/{{task.due_date.month}} </td>
                             {% endif %}
                         {% else %}
                             <td> | Due: </td> 
                         {% endif %}
-                    <td> | Label: {{task.task_label}}</td>
+                    <td> | Label: {{task.label}}</td>
                     <td> | <a href="/tasks/{{task.id}}/log_summary/">Summary</a></td>
                     <td> | <a href="/tasks/{{task.id}}/delete_completed/">Delete</a></td>
                     <td> | <a href="/tasks/{{task.id}}/open_completed/">Open</a></td></td>

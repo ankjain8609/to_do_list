@@ -9,13 +9,13 @@
             <tbody>
             {% for task in tasks_not_done %}
                 <tr></tr>
-                    <td> {{task.task_details}}</td>
-                    <td> | Label: {{task.task_label}}</td>
-                    {% if task.task_due_date %}
+                    <td> {{task.details}}</td>
+                    <td> | Label: {{task.label}}</td>
+                    {% if task.due_date %}
                         {% if task.task_is_past_due %}
-                            <td style="color:red">| Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                            <td style="color:red">| Due: {{task.due_date.day}}/{{task.due_date.month}} </td>
                         {% else %}
-                            <td> | Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                            <td> | Due: {{task.due_date.day}}/{{task.due_date.month}} </td>
                         {% endif %}
                     {% else %}
                         <td> | Due: </td> 
@@ -41,21 +41,22 @@
             <tbody>
             {% for task in tasks_in_progress %}
                 <tr>
-                    <td> {{task.task_details}}</td>
-                    <td> | Label: {{task.task_label}}</td>
-                    {% if task.task_due_date %}
+                    <td> {{task.details}}</td>
+                    <td> | Label: {{task.label}}</td>
+                    {% if task.due_date %}
                         {% if task.task_is_past_due %}
-                            <td style="color:red">| Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                            <td style="color:red">| Due: {{task.due_date.day}}/{{task.due_date.month}} </td>
                         {% else %}
-                            <td> | Due: {{task.task_due_date.day}}/{{task.task_due_date.month}} </td>
+                            <td> | Due: {{task.due_date.day}}/{{task.due_date.month}} </td>
                         {% endif %}
                     {% else %}
                         <td> | Due: </td> 
                     {% endif %}
+                    <td> | <a href="/tasks/{{task.id}}/log_summary/">Summary</a></td>
                     <td> | <a href="/tasks/{{task.id}}/edit/">Edit</a></td>
                     <td> | <a href="/tasks/{{task.id}}/complete/">Complete</a></td>
                     <td> | <a href="/tasks/{{task.id}}/delete_home/">Delete</a></td>
-    
+                    <td> | <a href="/tasks/{{task.id}}/log_hours/">Log Hours</a></td>    
                 </tr>
             {% endfor %}
             </tbody>
@@ -67,14 +68,15 @@
     <a href="/tasks/task_add/">Add Task</a> <br>
     <a href="/tasks/completed/">Completed Tasks</a> <br>
 
+    <h4> Add Labels </h4>
     <form method="POST" class="label-form">{% csrf_token %}
         {{ form.as_p }} 
         <button type="submit" class="save btn btn-default">Add</button>
     </form>
-    <h4> Labels </h4> 
+    <h4> Labels Added </h4> 
     {% if label_list %}
         {% for label in label_list %}
-            {{label.label_name}} - <a href="/tasks/{{label.id}}/label_delete/">Delete</a> | 
+            {{label.name}} - <a href="/tasks/{{label.id}}/label_delete_home_page/">Delete</a> | 
         {% endfor %}
     {% else %}
         <p>There are no labels to show right now.</p>

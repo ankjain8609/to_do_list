@@ -2,9 +2,10 @@
 {% block content %}
     <h3> Task Details </h3>
 
-    Task Details: {{task.task_details}} <br>
-    Create Date: {{task.task_create_time}} <br>
-    Due Date: {{task.task_due_date}} <br>
+    Task Details: {{task.details}} <br>
+    Create Date: {{task.create_time}} <br>
+    Due Date: {{task.due_date}} <br>
+    Labels: {{task.label}}<br>
 
     <h3> Task Log Hours </h3>
 
@@ -13,9 +14,9 @@
             <tbody>
             {% for log in task_log_hours %}
                 <tr>
-                    <td> Date of Work: {{log.task_day_of_work}} </td>
-                    <td> | {{log.task_time_spent}} hours </td>
-                    <td> | Logged On {{log.task_log_time}} </td>
+                    <td> Date of Work: {{log.day_of_work}} </td>
+                    <td> | {{log.time_spent}} hours </td>
+                    <td> | Logged On {{log.log_time}} </td>
                     <td> | {{log.log_notes }} </td>
                 </tr>
             {% endfor %}

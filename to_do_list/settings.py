@@ -31,24 +31,26 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'tasks.apps.TasksConfig', #Tasks Application 
-    'register.apps.RegisterConfig', #Register App
-    'django.contrib.admin',# Admin Application
-    'django.contrib.auth', # Core Authentication Framework 
-    'django.contrib.contenttypes', #Permission Associated with models
-    'django.contrib.sessions', #Core Sessions Application
+    'tasks.apps.TasksConfig',  # Tasks Application 
+    'register.apps.RegisterConfig',  # Register App
+    'django.contrib.admin',  # Admin Application
+    'django.contrib.auth',  # Core Authentication Framework 
+    'django.contrib.contenttypes',  # Permission Associated with models
+    'django.contrib.sessions',  # Core Sessions Application
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms', #Crispy Forms to beautify application forms 
-    'social_django'
+    'crispy_forms',  # Crispy Forms to beautify application forms 
+    'social_django',
+    'bootstrap4',  # Install Bootstrap 4
+    'bootstrap_datepicker_plus'  # Date Picker Bootstrap
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware', 
-    'django.contrib.sessions.middleware.SessionMiddleware', #Manage Sessions Across Requests
+    'django.contrib.sessions.middleware.SessionMiddleware',  # Manage Sessions Across Requests
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware', #Associates users with requests using sessions. 
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # Associates users with requests using sessions. 
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -135,3 +137,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = "/tasks/"
 
 LOGOUT_REDIRECT_URL = "/tasks/login/"
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
