@@ -1,5 +1,9 @@
 <html>
-    <body style="background-color:powderblue;">
-        <h1>Personal Task Managemnet Application</h1>
+    <body style="background-color:#E8E8E8;">
+        <h3>Personal Task Managemnet Application</h3>
+        Welcome {{user.username}}<br>
+        <a href="/tasks/logout/">Logout</a>
+        {% block content %}
+        {% endblock %}
     </body>
 </html>
