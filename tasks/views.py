@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Tasks, Labels, TaskLogHours
-from .forms import TaskCreationForm, TaskUpdationForm, LabelCreationForm, TaskLogHoursForm
+from .forms import TaskCreationForm, TaskUpdationForm, LabelCreationForm, TaskLogHoursForm,LabelFilterForm
 from django.views import generic
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -98,8 +98,8 @@ def task_edit(request,
         task = Tasks.objects.get(id = task_id)        
         if request.method == 'POST': 
             task_form = TaskUpdationForm(request.POST, instance = task)
-            if form.is_valid():
-                task = form.save(commit=False)
+            if task_form.is_valid():
+                task = task_form.save(commit=False)
                 task.label = task.label.split("<QuerySet [",1)[1].split("]>")[0]
                 task.label = task.label.replace("<Labels: ", "").replace(">","")
                 task.user = login_user
