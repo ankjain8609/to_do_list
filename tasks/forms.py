@@ -42,10 +42,24 @@ class TaskUpdationForm(forms.ModelForm):
 
 
 class LabelCreationForm(forms.ModelForm):
+    
 
     class Meta:
         model = Labels
         fields = ('name',)
+
+
+class LabelFilterForm(forms.ModelForm):
+
+
+    label_list = Labels.objects.filter(status = 'Active')
+    label = forms.ModelChoiceField(queryset = label_list, 
+                                      widget = forms.SelectMultiple, 
+                                      required = False)
+
+    class Meta:
+        model = Labels
+        fields = ('label',)
 
 
 class TaskLogHoursForm(forms.ModelForm):
@@ -66,3 +80,4 @@ class TaskNotesForm(forms.ModelForm):
         model = TaskNotes
         fields = ('notes',)
         widgets = {'notes': Textarea(attrs={'cols': 100, 'rows': 1})}
+

@@ -16,4 +16,5 @@ urlpatterns = [
     path('<int:task_id>/log_summary/', views.task_log_summary, name = 'task_log_summary'),
     path('<int:label_id>/label_delete_home_page/', views.label_delete_home_page, name = 'label_delete_home_page'),
     path('<int:label_id>/label_delete_task_add_page/', views.label_delete_task_add_page, name = 'label_delete_task_add_page'),
+    #path('label_filter/', views.label_filter, name = 'label_filter'),
 ]
