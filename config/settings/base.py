@@ -80,7 +80,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'to_do_list.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
