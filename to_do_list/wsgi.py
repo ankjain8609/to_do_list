@@ -8,9 +8,14 @@ https://docs.djangoproject.com/en/3.0/howto/deployment/wsgi/
 """
 
 import os
+import config
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.prod')
+"""
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'to_do_list.settings')
+"""
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settigs.prod'
 
 application = get_wsgi_application()
