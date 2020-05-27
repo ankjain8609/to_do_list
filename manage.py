@@ -3,7 +3,7 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.prod", package = None)
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "to_do_list.settings", package = None)
     try:
         from django.core.management import execute_from_command_line
     except ImportError:
