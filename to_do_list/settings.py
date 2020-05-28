@@ -26,7 +26,7 @@ SECRET_KEY = 'hxz(oq)@%xlr93b%ig)s9%i*t5+h5sz+!%ngsr93l-l2e7ymsr'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['ec2-15-206-187-97.ap-south-1.compute.amazonaws.com']
 
 # CSRF_COOKIE_SECURE = True
 
