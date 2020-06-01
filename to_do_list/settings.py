@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'social_django',
     'bootstrap4',  # Install Bootstrap 4
     'bootstrap_datepicker_plus',  # Date Picker Bootstrap
-    'datetimepicker'  #Date Time Picker Django
 ]
 
 MIDDLEWARE = [
@@ -101,7 +100,7 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'to_do_app_test',
+        'NAME': 'to_do_app_db',
         'USER': 'postgres',
         'PASSWORD': 'Logitech09',
         'HOST':'database-4.cc5dwlee6aji.ap-south-1.rds.amazonaws.com',
