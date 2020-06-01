@@ -4,7 +4,6 @@ from .models import Tasks, Labels, TaskLogHours, TaskNotes
 from django.contrib.auth.models import User
 from django.contrib.admin.widgets import AdminDateWidget
 from bootstrap_datepicker_plus import DatePickerInput
-from datetimepicker.widgets import DateTimePicker
 from django.contrib.admin import widgets
 
 
