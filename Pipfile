@@ -15,6 +15,7 @@ gitdb = "==4.0.5"
 gitpython = "==3.1.2"
 social-auth-app-django = "==3.1.0"
 social-auth-core = "==3.3.3"
+psycopg2 = "==2.7.4"
 
 [requires]
 python_version = "3.6"
