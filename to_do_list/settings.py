@@ -104,7 +104,7 @@ DATABASES = {
         'NAME': 'to_do_app_test',
         'USER': 'postgres',
         'PASSWORD': 'Logitech09',
-        'HOST':'database-3.cc5dwlee6aji.ap-south-1.rds.amazonaws.com',
+        'HOST':'database-4.cc5dwlee6aji.ap-south-1.rds.amazonaws.com',
         'PORT':'5432',   
     }
 }
