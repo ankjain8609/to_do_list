@@ -4,13 +4,14 @@ from .models import Tasks, Labels, TaskLogHours, TaskNotes
 from django.contrib.auth.models import User
 from django.contrib.admin.widgets import AdminDateWidget
 from bootstrap_datepicker_plus import DatePickerInput
+from datetimepicker.widgets import DateTimePicker
+from django.contrib.admin import widgets
 
 
 class TaskCreationForm(forms.ModelForm):
+                            
 
-
-    due_date = forms.DateField(widget=DatePickerInput(format='%m/%d/%Y'),
-                               required=False)    
+    due_date = forms.DateField(required=False)    
     label_list = Labels.objects.filter(status = 'Active')
     label = forms.ModelMultipleChoiceField(queryset = label_list, 
                                            widget = forms.SelectMultiple, 
@@ -20,8 +21,7 @@ class TaskCreationForm(forms.ModelForm):
 
         model = Tasks
         fields = ('details','due_date','label')
-        widgets = {'details': Textarea(attrs={'cols': 40, 'rows': 5}),
-                   'due_date': AdminDateWidget()}
+        widgets = {'details': Textarea(attrs={'cols': 40, 'rows': 5})}
 
 
 class TaskUpdationForm(forms.ModelForm):
