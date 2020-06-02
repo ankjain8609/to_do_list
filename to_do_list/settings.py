@@ -26,7 +26,7 @@ SECRET_KEY = 'hxz(oq)@%xlr93b%ig)s9%i*t5+h5sz+!%ngsr93l-l2e7ymsr'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-13-232-221-131.ap-south-1.compute.amazonaws.com', '13.232.221.131','127.0.0.1', 'ec2-13-233-237-50.ap-south-1.compute.amazonaws.com','13.233.237.50']
+ALLOWED_HOSTS = ['ec2-13-232-221-131.ap-south-1.compute.amazonaws.com', '13.232.221.131','127.0.0.1', 'ec2-13-233-237-50.ap-south-1.compute.amazonaws.com','13.233.237.50','ankjain1986.in']
 
 # CSRF_COOKIE_SECURE = True
 
@@ -153,8 +153,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = "/tasks/"
 
 LOGOUT_REDIRECT_URL = "/tasks/login/"
-
-BOOTSTRAP4 = {
-    'include_jquery': True,
-}
 
