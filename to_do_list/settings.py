@@ -26,19 +26,18 @@ SECRET_KEY = 'hxz(oq)@%xlr93b%ig)s9%i*t5+h5sz+!%ngsr93l-l2e7ymsr'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-13-232-221-131.ap-south-1.compute.amazonaws.com', '13.232.221.131','127.0.0.1', 'ec2-13-233-237-50.ap-south-1.compute.amazonaws.com','13.233.237.50','ankjain1986.in']
+ALLOWED_HOSTS = ['127.0.0.1', 'ec2-13-233-237-50.ap-south-1.compute.amazonaws.com','ankjain1986.in']
 
-# CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = False
 
 # SESSION_COOKIE_SECURE = True
 
-# SECURE_SSL_REDIRECT = True
+# SECURE_SSL_REDIRECT = False
 
 # Application definition
 
 INSTALLED_APPS = [
     'tasks.apps.TasksConfig',  # Tasks Application 
-    'register.apps.RegisterConfig',  # Register App
     'django.contrib.admin',  # Admin Application
     'django.contrib.auth',  # Core Authentication Framework 
     'django.contrib.contenttypes',  # Permission Associated with models
@@ -49,22 +48,55 @@ INSTALLED_APPS = [
     'social_django',
     'bootstrap4',  # Install Bootstrap 4
     'bootstrap_datepicker_plus',  # Date Picker Bootstrap
+    
+    # allauth
+    'django.contrib.sites', 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google'
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware', 
-    'django.contrib.sessions.middleware.SessionMiddleware',  # Manage Sessions Across Requests
+    'django.contrib.sessions.middleware.SessionMiddleware',  
+    
+    # Manage Sessions Across Requests
     'django.middleware.common.CommonMiddleware',
+    
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',  # Associates users with requests using sessions. 
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  
+    
+    # Associates users with requests using sessions 
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
+
+    # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-)
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '123',
+            'secret': '456',
+            'key': ''
+        }
+    }
+}
 
 ROOT_URLCONF = 'to_do_list.urls'
 
@@ -79,6 +111,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'social_django.context_processors.backends',
+                # 'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -152,5 +186,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = "/tasks/"
 
-LOGOUT_REDIRECT_URL = "/tasks/login/"
+LOGOUT_REDIRECT_URL = "/accounts/login/"
 

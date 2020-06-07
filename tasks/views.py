@@ -25,15 +25,18 @@ If user is not logged in, he / she will be redirected to the login page.
 If the user does not have an account, he / she will have to create an account on the register page. 
 """
 
+"""Constant Variables"""
+login_link = '/accounts/login'
+
 def index(request):
     """Home page view of the application."""
 
     login_user = request.user
-    if login_user.is_authenticated:  #explicit compare everywhere -> not to be done by conventions
-        if request.method == 'POST': #create constants file, use that
+    if login_user.is_authenticated: 
+        if request.method == 'POST': 
             label_form = LabelCreationForm(request.POST)
-            if label_form.is_valid(): #explicit compare            
-                label = label_form.save(commit=False) #check whether space around =
+            if label_form.is_valid():       
+                label = label_form.save(commit=False) 
                 label.user = request.user
                 label.create_time = timezone.now()
                 label.save()
@@ -48,7 +51,7 @@ def index(request):
             context['form'] = form
             return render(request, 'tasks/index.html', context)
     else:
-        return redirect('/tasks/login')
+        return redirect(login_link)
 
 def task_add(request):
     """View to add a new task.
@@ -85,7 +88,7 @@ def task_add(request):
         return render(request, 'tasks/task_edit.html', 
                       {'task_form': task_form, 'label_form': label_form, 'label_list':label_list})
     else:
-        return redirect('/tasks/login')
+        return redirect(login_link)
 
 def task_edit(request, 
               task_id):
@@ -114,7 +117,7 @@ def task_edit(request,
         return render(request, 'tasks/task_edit.html', 
                       {'task_form':task_form, 'label_form':label_form, 'label_list':label_list})    
     else:
-        return redirect('/tasks/login')
+        return redirect(login_link)
 
 
 def task_complete(request, 
@@ -139,7 +142,7 @@ def task_complete_home_page(request,
         task = task_complete(request, task_id)        
         return redirect('/tasks/')
     else:
-        return redirect('/tasks/login')
+        return redirect(login_link)
 
 def task_inprogress(request, 
                     task_id):
@@ -153,7 +156,7 @@ def task_inprogress(request,
         task.save()
         return redirect('/tasks/')    
     else:
-        return redirect('/tasks/login')
+        return redirect(login_link)
 
 def task_delete(request, 
                 task_id):
@@ -177,7 +180,7 @@ def task_delete_home_page(request,
         task = task_delete(request, task_id)
         return redirect('/tasks/')
     else:
-        return redirect('/tasks/login')
+        return redirect(login_link)
 
 def task_delete_completed_page(request, 
                                task_id):
@@ -188,7 +191,7 @@ def task_delete_completed_page(request,
         task = task_delete(request, task_id)
         return redirect('/tasks/completed/')    
     else:
-        return redirect('/tasks/login')
+        return redirect(login_link)
 
 def tasks_completed_list(request):
     """Completed Page View of the Application."""
@@ -202,7 +205,7 @@ def tasks_completed_list(request):
         context = {'tasks_done': tasks_done}
         return render(request, 'tasks/tasks_completed.html', context)    
     else:
-        return redirect('/tasks/login')
+        return redirect(login_link)
 
 def task_open_completed_page(request, 
                              task_id):
@@ -217,7 +220,7 @@ def task_open_completed_page(request,
         task.save()
         return redirect('/tasks/')
     else:
-        return redirect('/tasks/login')
+        return redirect(login_link)
 
 def label_delete(request, 
                  label_id):
@@ -239,7 +242,7 @@ def label_delete_home_page(request,
         label = label_delete(request,label_id)
         return redirect('/tasks/')    
     else:
-        return redirect('/tasks/login')
+        return redirect(login_link)
 
 def label_delete_task_add_page(request, 
                              label_id):
@@ -250,7 +253,7 @@ def label_delete_task_add_page(request,
         label = label_delete(request,label_id)
         return redirect('/tasks/task_add/')    
     else:
-        return redirect('/tasks/login')
+        return redirect(login_link)
 
 def home_page_context(request):
     """Method to determine the context to be passed for the home page template."""
@@ -294,7 +297,7 @@ def task_log_hours(request,
             form = TaskLogHoursForm()        
         return render(request, 'tasks/task_log_hours.html', {'form': form})
     else:
-        return redirect('/tasks/login')    
+        return redirect(login_link)   
 
 def task_log_summary(request, 
                      task_id):
@@ -307,4 +310,4 @@ def task_log_summary(request,
         return render(request, 'tasks/task_log_summary.html', 
                       {'task_log_hours':task_log_hours, 'task':task_filtered}) 
     else:
-        redirect('/tasks/')
+        return redirect(login_link)

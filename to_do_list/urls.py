@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from tasks.views import index
 
 urlpatterns = [
-    path('register/', include('register.urls')),
+    path('', index),
+    path('accounts/', include('allauth.urls')),
+    # path('register/', include('register.urls')),
     path('admin/', admin.site.urls), 
-    path('tasks/', include('tasks.urls')),
-    path('tasks/', include('django.contrib.auth.urls'))
+    path('tasks/', include('tasks.urls'))
+    # path('tasks/', include('django.contrib.auth.urls'))
  ]
