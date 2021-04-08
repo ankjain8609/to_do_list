@@ -7,7 +7,7 @@ verify_ssl = true
 
 [packages]
 requests = "*"
-django = "==3.0.6"
+django = "==3.0.14"
 django-bootstrap4 = "==1.1.1"
 django-bootstrap-datepicker-plus = "==3.0.5"
 django-crispy-forms = "==1.9.1"
